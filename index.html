@@ -274,7 +274,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-dark);
+            background: #070a12;
             z-index: 10000;
             color: white;
             text-align: center;
@@ -287,36 +287,31 @@
 </head>
 <body>
 
-    <!-- Floating Dashboard Nav Bar -->
     <div class="glass-nav">
         <div class="system-status">
-            <div class="status-pulse"></div>
-            <span>Secure Academic Sandbox Session Active</span>
+            <div class="status-pulse" id="pulseNode"></div>
+            <span id="statusText">Secure Academic Sandbox Session Active</span>
         </div>
-        <div class="countdown-timer">TIME LEFT: <span id="clockNode">72:00:00</span></div>
+        <div class="countdown-timer">TIME LEFT: <span id="clockNode">24:00:00</span></div>
     </div>
 
-    <!-- Time Out Screen Overlay -->
     <div id="session-terminal-curtain">
-        <div>
+        <div id="curtainContent">
             <h2 style="font-size: 2.5rem; margin-bottom: 16px; color: var(--danger-glow);">Time Exceeded</h2>
-            <p style="color: var(--text-secondary); font-size: 1.1rem;">Your 72-hour limit has terminated. Packaging responses and executing email handoff array...</p>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">Your 24-hour limit has terminated. Packaging responses and executing email handoff array...</p>
         </div>
     </div>
 
-    <!-- Master Form Wrapper -->
     <form id="quizForm" action="mailto:iamorevaofficial@gmail.com" method="post" enctype="text/plain">
 
-        <div class="exam-frame">
+        <div class="exam-frame" id="mainWorkspaceFrame">
             
-            <!-- Styled Blue Border Header Card -->
             <div class="academic-header">
                 <h1>Web Architecture & HTML Midterm</h1>
                 <p>Proctored Delivery Route: <strong>iamorevaofficial@gmail.com</strong></p>
-                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--primary-glow);">★ Tab refreshes monitored via localized context instances over a 72-hour duration constraint.</p>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--primary-glow);">★ Tab refreshes monitored via localized context instances over a 24-hour duration constraint.</p>
             </div>
 
-            <!-- Student Profile Deck -->
             <div class="module-tag">Authentication Profiling</div>
             <div class="identity-deck">
                 <div>
@@ -329,7 +324,6 @@
                 </div>
             </div>
 
-            <!-- Section A -->
             <div class="module-tag">Section A: Structural Core Theory</div>
 
             <div class="task-card">
@@ -398,7 +392,6 @@
                 <input type="text" name="Q5_IDE_Flavor" required placeholder="e.g. VS Code, Atom, Sublime...">
             </div>
 
-            <!-- Section B -->
             <div class="module-tag">Section B: Code Parsing Syntax</div>
 
             <div class="task-card">
@@ -426,7 +419,6 @@
                 <input type="text" name="Q10_JS_Literal_Meaning" required placeholder="Write the complete language name...">
             </div>
 
-            <!-- Section C -->
             <div class="module-tag">Section C: Style Cascade Integration</div>
 
             <div class="task-card">
@@ -439,7 +431,6 @@
                 <input type="text" name="Q12_Third_Style_Approach" required placeholder="Specify missing methodology...">
             </div>
 
-            <!-- Section D -->
             <div class="module-tag">Section D: Practical Interaction Layout Elements</div>
 
             <div class="task-card">
@@ -476,7 +467,6 @@
                 </div>
             </div>
 
-            <!-- Submit Core Action -->
             <div style="margin-top: 32px;">
                 <button type="submit" class="dashboard-submit-btn" id="payloadSubmit">Lock Final Responses & Submit</button>
             </div>
@@ -486,23 +476,39 @@
     </form>
 
     <script>
-        // Configured for a 72-Hour runtime constraint window (72 hours * 60 mins * 60 secs)
-        const MASTER_ALLOTMENT_SECS = 259200; 
+        // Configured for a 24-Hour runtime constraint window (24 hours * 60 mins * 60 secs)
+        const MASTER_ALLOTMENT_SECS = 86400; 
         let persistentCountdownValue;
-
-        // Verify active LocalStorage tracking token metrics to secure timer values against browser reloads
-        if (localStorage.getItem('dashboard_midterm_epoch_72h')) {
-            let targetDeadlineEpoch = parseInt(localStorage.getItem('dashboard_midterm_epoch_72h'), 10);
-            persistentCountdownValue = Math.ceil((targetDeadlineEpoch - Date.now()) / 1000);
-        } else {
-            persistentCountdownValue = MASTER_ALLOTMENT_SECS;
-            let dynamicDeadlineSet = Date.now() + (MASTER_ALLOTMENT_SECS * 1000);
-            localStorage.setItem('dashboard_midterm_epoch_72h', dynamicDeadlineSet.toString());
-        }
 
         const clockDisplayElement = document.getElementById('clockNode');
         const internalQuizForm = document.getElementById('quizForm');
         const timeoutCurtainWindow = document.getElementById('session-terminal-curtain');
+        const curtainContent = document.getElementById('curtainContent');
+        const pulseNode = document.getElementById('pulseNode');
+        const statusText = document.getElementById('statusText');
+
+        // Hard Lock Check: Permanent lockout check across browser sessions
+        if (localStorage.getItem('exam_locked_out') === 'true') {
+            triggerPermanentLockoutView();
+        } else {
+            // Verify active LocalStorage tracking token metrics to secure timer values against browser reloads
+            if (localStorage.getItem('dashboard_midterm_epoch_24h')) {
+                let targetDeadlineEpoch = parseInt(localStorage.getItem('dashboard_midterm_epoch_24h'), 10);
+                persistentCountdownValue = Math.ceil((targetDeadlineEpoch - Date.now()) / 1000);
+            } else {
+                persistentCountdownValue = MASTER_ALLOTMENT_SECS;
+                let dynamicDeadlineSet = Date.now() + (MASTER_ALLOTMENT_SECS * 1000);
+                localStorage.setItem('dashboard_midterm_epoch_24h', dynamicDeadlineSet.toString());
+            }
+
+            // Fire and run the initialization loop check
+            if (persistentCountdownValue <= 0) {
+                executeForcedLockoutSubmission();
+            } else {
+                var clockEngineIntervalToken = setInterval(executeClockTickCycle, 1000);
+                executeClockTickCycle();
+            }
+        }
 
         function executeClockTickCycle() {
             if (persistentCountdownValue <= 0) {
@@ -523,22 +529,38 @@
             }
         }
 
-        const clockEngineIntervalToken = setInterval(executeClockTickCycle, 1000);
-        executeClockTickCycle();
-
-        // Flush tracking parameters on active valid form click submission action
+        // Handle clean up if form is manually submitted before time runs out
         internalQuizForm.addEventListener('submit', function() {
-            localStorage.removeItem('dashboard_midterm_epoch_72h');
+            localStorage.setItem('exam_locked_out', 'true');
+            localStorage.removeItem('dashboard_midterm_epoch_24h');
         });
 
-        // Triggered upon 72-hour session expiration limits
+        // Triggered upon 24-hour session expiration limits
         function executeForcedLockoutSubmission() {
+            localStorage.setItem('exam_locked_out', 'true');
+            localStorage.removeItem('dashboard_midterm_epoch_24h');
             timeoutCurtainWindow.style.display = 'flex';
-            localStorage.removeItem('dashboard_midterm_epoch_72h');
             
             setTimeout(() => {
                 internalQuizForm.submit();
             }, 2000);
+        }
+
+        // Absolute lockout restriction viewport modifier
+        function triggerPermanentLockoutView() {
+            document.getElementById('mainWorkspaceFrame').style.display = 'none';
+            clockDisplayElement.textContent = "00:00:00";
+            pulseNode.style.backgroundColor = 'var(--brand-danger)';
+            pulseNode.style.boxShadow = '0 0 8px var(--brand-danger)';
+            statusText.textContent = "Session Closed / Access Revoked";
+            
+            curtainContent.innerHTML = `
+                <h2 style="font-size: 2.5rem; margin-bottom: 16px; color: var(--danger-glow);">Access Denied</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    The 24-hour testing window has officially closed. You have either already submitted your responses or your token has expired. No further submissions are permitted.
+                </p>
+            `;
+            timeoutCurtainWindow.style.display = 'flex';
         }
     </script>
 </body>
