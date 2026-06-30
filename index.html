@@ -184,7 +184,7 @@
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
 
-        /* Completely Redesigned Selection Blocks (Radio buttons) */
+        /* Redesigned Selection Blocks (Radio buttons) */
         .pill-selection {
             display: flex;
             align-items: center;
@@ -293,14 +293,14 @@
             <div class="status-pulse"></div>
             <span>Secure Academic Sandbox Session Active</span>
         </div>
-        <div class="countdown-timer">T-MINUS: <span id="clockNode">60:00</span></div>
+        <div class="countdown-timer">TIME LEFT: <span id="clockNode">72:00:00</span></div>
     </div>
 
     <!-- Time Out Screen Overlay -->
     <div id="session-terminal-curtain">
         <div>
             <h2 style="font-size: 2.5rem; margin-bottom: 16px; color: var(--danger-glow);">Time Exceeded</h2>
-            <p style="color: var(--text-secondary); font-size: 1.1rem;">Your 1-hour limit has terminated. Packaging responses and executing email handoff array...</p>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">Your 72-hour limit has terminated. Packaging responses and executing email handoff array...</p>
         </div>
     </div>
 
@@ -313,7 +313,7 @@
             <div class="academic-header">
                 <h1>Web Architecture & HTML Midterm</h1>
                 <p>Proctored Delivery Route: <strong>iamorevaofficial@gmail.com</strong></p>
-                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--primary-glow);">★ Tab refreshes monitored via localized context instances.</p>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--primary-glow);">★ Tab refreshes monitored via localized context instances over a 72-hour duration constraint.</p>
             </div>
 
             <!-- Student Profile Deck -->
@@ -321,7 +321,7 @@
             <div class="identity-deck">
                 <div>
                     <label for="nameInput">Student Full Name *</label>
-                    <input type="text" id="nameInput" name="Profile_Student_Name" required placeholder="e.g. john">
+                    <input type="text" id="nameInput" name="Profile_Student_Name" required placeholder="e.g. Cynthia Obi">
                 </div>
                 <div>
                     <label for="stateInput">Current State *</label>
@@ -412,7 +412,7 @@
             </div>
 
             <div class="task-card">
-                <p class="task-title">8. In modern structural page flows, specify exactly what the <code>&lt;div&gt;</code> element is used for:</p>
+                <p class="task-title">8. In modern structured page flows, specify exactly what the <code>&lt;div&gt;</code> element is used for:</p>
                 <textarea name="Q8_Div_Structural_Purpose" rows="2" required placeholder="State its organizational purpose..."></textarea>
             </div>
 
@@ -486,18 +486,18 @@
     </form>
 
     <script>
-        // Set Exam Count Limit Metric parameters (1 Hour = 3600 Seconds)
-        const MASTER_ALLOTMENT_SECS = 3600; 
+        // Configured for a 72-Hour runtime constraint window (72 hours * 60 mins * 60 secs)
+        const MASTER_ALLOTMENT_SECS = 259200; 
         let persistentCountdownValue;
 
-        // Verify active LocalStorage timestamps to bypass browser reload tricks
-        if (localStorage.getItem('dashboard_midterm_epoch')) {
-            let targetDeadlineEpoch = parseInt(localStorage.getItem('dashboard_midterm_epoch'), 10);
+        // Verify active LocalStorage tracking token metrics to secure timer values against browser reloads
+        if (localStorage.getItem('dashboard_midterm_epoch_72h')) {
+            let targetDeadlineEpoch = parseInt(localStorage.getItem('dashboard_midterm_epoch_72h'), 10);
             persistentCountdownValue = Math.ceil((targetDeadlineEpoch - Date.now()) / 1000);
         } else {
             persistentCountdownValue = MASTER_ALLOTMENT_SECS;
             let dynamicDeadlineSet = Date.now() + (MASTER_ALLOTMENT_SECS * 1000);
-            localStorage.setItem('dashboard_midterm_epoch', dynamicDeadlineSet.toString());
+            localStorage.setItem('dashboard_midterm_epoch_72h', dynamicDeadlineSet.toString());
         }
 
         const clockDisplayElement = document.getElementById('clockNode');
@@ -507,16 +507,18 @@
         function executeClockTickCycle() {
             if (persistentCountdownValue <= 0) {
                 clearInterval(clockEngineIntervalToken);
-                clockDisplayElement.textContent = "00:00";
+                clockDisplayElement.textContent = "00:00:00";
                 executeForcedLockoutSubmission();
             } else {
-                let currentMinutes = Math.floor(persistentCountdownValue / 60);
+                let currentHours = Math.floor(persistentCountdownValue / 3600);
+                let currentMinutes = Math.floor((persistentCountdownValue % 3600) / 60);
                 let currentSeconds = persistentCountdownValue % 60;
 
+                let renderedHours = currentHours < 10 ? '0' + currentHours : currentHours;
                 let renderedMinutes = currentMinutes < 10 ? '0' + currentMinutes : currentMinutes;
                 let renderedSeconds = currentSeconds < 10 ? '0' + currentSeconds : currentSeconds;
 
-                clockDisplayElement.textContent = `${renderedMinutes}:${renderedSeconds}`;
+                clockDisplayElement.textContent = `${renderedHours}:${renderedMinutes}:${renderedSeconds}`;
                 persistentCountdownValue--;
             }
         }
@@ -524,15 +526,15 @@
         const clockEngineIntervalToken = setInterval(executeClockTickCycle, 1000);
         executeClockTickCycle();
 
-        // Destruct the target epoch parameters on active valid submit trigger event
+        // Flush tracking parameters on active valid form click submission action
         internalQuizForm.addEventListener('submit', function() {
-            localStorage.removeItem('dashboard_midterm_epoch');
+            localStorage.removeItem('dashboard_midterm_epoch_72h');
         });
 
-        // Lock workspace out instantly upon 1-hour expiration limit trigger
+        // Triggered upon 72-hour session expiration limits
         function executeForcedLockoutSubmission() {
             timeoutCurtainWindow.style.display = 'flex';
-            localStorage.removeItem('dashboard_midterm_epoch');
+            localStorage.removeItem('dashboard_midterm_epoch_72h');
             
             setTimeout(() => {
                 internalQuizForm.submit();
