@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Mid-Term Examination Dashboard</title>
+    <title>Examination Portal - Closed</title>
     <style>
         :root {
             --bg-dark: #0b0f19;
             --bg-card: #151b2c;
-            --bg-input: #1e2640;
-            --primary-glow: #38bdf8;
-            --success-glow: #34d399;
             --danger-glow: #f87171;
-            --border-glow: #2a3454;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --required-blue: #0000ff;
+            --border-glow: #2a3454;
         }
 
         * {
@@ -28,540 +24,71 @@
             font-family: 'SF Pro Display', -apple-system, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-primary);
-            line-height: 1.6;
-            padding-bottom: 80px;
-        }
-
-        /* Modern Floating Control Banner */
-        .glass-nav {
-            position: sticky;
-            top: 0;
-            background: rgba(21, 27, 44, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-glow);
-            padding: 16px 32px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .system-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .status-pulse {
-            width: 8px;
-            height: 8px;
-            background-color: var(--success-glow);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--success-glow);
-        }
-
-        .countdown-timer {
-            background: rgba(248, 113, 113, 0.1);
-            border: 1px solid var(--danger-glow);
-            color: var(--danger-glow);
-            padding: 8px 20px;
-            font-weight: 700;
-            border-radius: 30px;
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-        }
-
-        /* Centralized Layout Sheet */
-        .exam-frame {
-            max-width: 850px;
-            margin: 40px auto;
-            padding: 0 24px;
-        }
-
-        /* Mandatory Spec: Styled Blue Border Header Card */
-        .academic-header {
-            background: var(--bg-card);
-            border: 3px solid var(--required-blue);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-
-        .academic-header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .academic-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* Section Splitters */
-        .module-tag {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--primary-glow);
-            margin: 40px 0 16px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .module-tag::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-glow);
-        }
-
-        /* Dashboard Identity Panel (Name & State) */
-        .identity-deck {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 24px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 640px) {
-            .identity-deck { grid-template-columns: 1fr; }
-        }
-
-        /* Interactive Question Panels */
-        .task-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        .task-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        /* Form Input Field Resets */
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        input[type="text"], select, textarea {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border-glow);
-            color: var(--text-primary);
-            padding: 14px 18px;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        input[type="text"]:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-        }
-
-        /* Redesigned Selection Blocks (Radio buttons) */
-        .pill-selection {
-            display: flex;
-            align-items: center;
-            background: var(--bg-input);
-            border: 1px solid var(--border-glow);
-            padding: 14px 20px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .pill-selection:hover {
-            border-color: var(--primary-glow);
-            background: rgba(56, 189, 248, 0.02);
-        }
-
-        .pill-selection input[type="radio"] {
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid var(--border-glow);
-            border-radius: 50%;
-            margin-right: 14px;
-            outline: none;
-            display: grid;
-            place-content: center;
-            cursor: pointer;
-        }
-
-        .pill-selection input[type="radio"]::before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            transform: scale(0);
-            transition: 0.15s transform ease-in-out;
-            background-color: var(--primary-glow);
-        }
-
-        .pill-selection input[type="radio"]:checked {
-            border-color: var(--primary-glow);
-        }
-
-        .pill-selection input[type="radio"]:checked::before {
-            transform: scale(1);
-        }
-
-        /* Virtual Document Viewport placeholder */
-        .terminal-preview {
-            margin-top: 20px;
-            background: #070a12;
-            border-radius: 10px;
-            padding: 24px;
-            border: 1px solid var(--border-glow);
-            text-align: center;
-            font-family: monospace;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        /* Terminal submit button */
-        .dashboard-submit-btn {
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: white;
-            border: none;
-            padding: 18px 36px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 25px rgba(2, 132, 199, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .dashboard-submit-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 30px rgba(2, 132, 199, 0.45);
-        }
-
-        /* Full Screen Interlock Timeout Screen */
-        #session-terminal-curtain {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #070a12;
-            z-index: 10000;
-            color: white;
-            text-align: center;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .lockout-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
             padding: 40px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon-shield {
+            width: 64px;
+            height: 64px;
+            background: rgba(248, 113, 113, 0.1);
+            border: 2px solid var(--danger-glow);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 24px auto;
+            color: var(--danger-glow);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .footer-note {
+            font-size: 0.9rem;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div class="glass-nav">
-        <div class="system-status">
-            <div class="status-pulse" id="pulseNode"></div>
-            <span id="statusText">Secure Academic Sandbox Session Active</span>
-        </div>
-        <div class="countdown-timer">TIME LEFT: <span id="clockNode">24:00:00</span></div>
+    <div class="lockout-card">
+        <div class="icon-shield">✕</div>
+        <h1>Test is Over</h1>
+        <p>The 24-hour examination window has officially closed. You can no longer access the questions or submit answers.</p>
+        <div class="footer-note">Thank you.</div>
     </div>
 
-    <div id="session-terminal-curtain">
-        <div id="curtainContent">
-            <h2 style="font-size: 2.5rem; margin-bottom: 16px; color: var(--danger-glow);">Time Exceeded</h2>
-            <p style="color: var(--text-secondary); font-size: 1.1rem;">Your 24-hour limit has terminated. Packaging responses and executing email handoff array...</p>
-        </div>
-    </div>
-
-    <form id="quizForm" action="mailto:iamorevaofficial@gmail.com" method="post" enctype="text/plain">
-
-        <div class="exam-frame" id="mainWorkspaceFrame">
-            
-            <div class="academic-header">
-                <h1>Web Architecture & HTML Midterm</h1>
-                <p>Proctored Delivery Route: <strong>iamorevaofficial@gmail.com</strong></p>
-                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--primary-glow);">★ Tab refreshes monitored via localized context instances over a 24-hour duration constraint.</p>
-            </div>
-
-            <div class="module-tag">Authentication Profiling</div>
-            <div class="identity-deck">
-                <div>
-                    <label for="nameInput">Student Full Name *</label>
-                    <input type="text" id="nameInput" name="Profile_Student_Name" required placeholder="e.g. your name here">
-                </div>
-                <div>
-                    <label for="stateInput">Current State *</label>
-                    <input type="text" id="stateInput" name="Profile_Student_State" required placeholder="e.g. Lagos State">
-                </div>
-            </div>
-
-            <div class="module-tag">Section A: Structural Core Theory</div>
-
-            <div class="task-card">
-                <p class="task-title">1. What is the explicit technical full meaning of HTML?</p>
-                <label class="pill-selection">
-                    <input type="radio" name="Q1_HTML_FullMeaning" value="A" required>
-                    <span>A) Hyper Text Markup Language</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q1_HTML_FullMeaning" value="B">
-                    <span>B) High Text Machine Language</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q1_HTML_FullMeaning" value="C">
-                    <span>C) Hyper Media Transfer Layout</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q1_HTML_FullMeaning" value="D">
-                    <span>D) Home Tool Markup Language</span>
-                </label>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">2. Which native HTML header element yields the absolute largest default structural size?</p>
-                <label class="pill-selection">
-                    <input type="radio" name="Q2_MaxHeading_Scale" value="A" required>
-                    <span>A) &lt;heading&gt;</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q2_MaxHeading_Scale" value="B">
-                    <span>B) &lt;h6&gt;</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q2_MaxHeading_Scale" value="C">
-                    <span>C) &lt;h1&gt;</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q2_MaxHeading_Scale" value="D">
-                    <span>D) &lt;head&gt;</span>
-                </label>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">3. What is the correct standalone tag used to execute an intentional carriage return/line break?</p>
-                <label class="pill-selection">
-                    <input type="radio" name="Q3_BreakElement" value="A" required>
-                    <span>A) &lt;br&gt;</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q3_BreakElement" value="B">
-                    <span>B) &lt;lb&gt;</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Q3_BreakElement" value="C">
-                    <span>C) &lt;break&gt;</span>
-                </label>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">4. An IDE is software that allows you to write code. What is the full meaning of IDE?</p>
-                <input type="text" name="Q4_IDE_Definition" required placeholder="Type the structural definition here...">
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">5. What specific name or variant type of IDE application tool do you deploy inside your lab work?</p>
-                <input type="text" name="Q5_IDE_Flavor" required placeholder="e.g. VS Code, Atom, Sublime...">
-            </div>
-
-            <div class="module-tag">Section B: Code Parsing Syntax</div>
-
-            <div class="task-card">
-                <p class="task-title">6. Complete this structural layout element opening tag accurately: <code>&lt;Form </code></p>
-                <input type="text" name="Q6_Complete_OpeningForm" required placeholder="Type out the missing characters to make it legal markup...">
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">7. Complete this structural layout element closing tag accurately: <code>/table&gt;</code></p>
-                <input type="text" name="Q7_Complete_ClosingTable" required placeholder="Type out the missing characters to make it legal markup...">
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">8. In modern structured page flows, specify exactly what the <code>&lt;div&gt;</code> element is used for:</p>
-                <textarea name="Q8_Div_Structural_Purpose" rows="2" required placeholder="State its organizational purpose..."></textarea>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">9. Define the conceptual role of an HTML "Class" attribute specifier:</p>
-                <textarea name="Q9_Class_Attribute_Role" rows="2" required placeholder="What function does a class serve for reusable nodes?"></textarea>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">10. State the complete un-shortened literal meaning of JavaScript:</p>
-                <input type="text" name="Q10_JS_Literal_Meaning" required placeholder="Write the complete language name...">
-            </div>
-
-            <div class="module-tag">Section C: Style Cascade Integration</div>
-
-            <div class="task-card">
-                <p class="task-title">11. How many standard operational methodology types of CSS styles are accessible to authors?</p>
-                <input type="text" name="Q11_CSS_Methodology_Count" required placeholder="Supply numerical total...">
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">12. The structural models contain Inline styles, External stylesheets, and what third approach?</p>
-                <input type="text" name="Q12_Third_Style_Approach" required placeholder="Specify missing methodology...">
-            </div>
-
-            <div class="module-tag">Section D: Practical Interaction Layout Elements</div>
-
-            <div class="task-card">
-                <label for="daysMenu" class="task-title" style="display:block;">13. Interact with this drop-down select list element and specify a target day:</label>
-                <select id="daysMenu" name="Practical_Dropdown_DayValue" required>
-                    <option value="">-- Click to expand days array --</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
-                </select>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">14. Choose your appropriate personal record categorization using this radio node cluster:</p>
-                <label class="pill-selection">
-                    <input type="radio" name="Practical_Radio_GenderValue" value="Male" required>
-                    <span>Male</span>
-                </label>
-                <label class="pill-selection">
-                    <input type="radio" name="Practical_Radio_GenderValue" value="Female">
-                    <span>Female</span>
-                </label>
-            </div>
-
-            <div class="task-card">
-                <p class="task-title">15. Code Delivery: Document the valid HTML syntax line needed to embed an image asset pointing to a resource named "photo.jpg":</p>
-                <input type="text" name="Q15_Image_Node_Syntax" required placeholder='e.g. <img src="photo.jpg" alt="Description">'>
-                <div class="terminal-preview">
-                    <span>[ Matrix Document Sandbox Asset Window Viewport ]</span>
-                </div>
-            </div>
-
-            <div style="margin-top: 32px;">
-                <button type="submit" class="dashboard-submit-btn" id="payloadSubmit">Lock Final Responses & Submit</button>
-            </div>
-
-        </div>
-
-    </form>
-
-    <script>
-        // Configured for a 24-Hour runtime constraint window (24 hours * 60 mins * 60 secs)
-        const MASTER_ALLOTMENT_SECS = 86400; 
-        let persistentCountdownValue;
-
-        const clockDisplayElement = document.getElementById('clockNode');
-        const internalQuizForm = document.getElementById('quizForm');
-        const timeoutCurtainWindow = document.getElementById('session-terminal-curtain');
-        const curtainContent = document.getElementById('curtainContent');
-        const pulseNode = document.getElementById('pulseNode');
-        const statusText = document.getElementById('statusText');
-
-        // Hard Lock Check: Permanent lockout check across browser sessions
-        if (localStorage.getItem('exam_locked_out') === 'true') {
-            triggerPermanentLockoutView();
-        } else {
-            // Verify active LocalStorage tracking token metrics to secure timer values against browser reloads
-            if (localStorage.getItem('dashboard_midterm_epoch_24h')) {
-                let targetDeadlineEpoch = parseInt(localStorage.getItem('dashboard_midterm_epoch_24h'), 10);
-                persistentCountdownValue = Math.ceil((targetDeadlineEpoch - Date.now()) / 1000);
-            } else {
-                persistentCountdownValue = MASTER_ALLOTMENT_SECS;
-                let dynamicDeadlineSet = Date.now() + (MASTER_ALLOTMENT_SECS * 1000);
-                localStorage.setItem('dashboard_midterm_epoch_24h', dynamicDeadlineSet.toString());
-            }
-
-            // Fire and run the initialization loop check
-            if (persistentCountdownValue <= 0) {
-                executeForcedLockoutSubmission();
-            } else {
-                var clockEngineIntervalToken = setInterval(executeClockTickCycle, 1000);
-                executeClockTickCycle();
-            }
-        }
-
-        function executeClockTickCycle() {
-            if (persistentCountdownValue <= 0) {
-                clearInterval(clockEngineIntervalToken);
-                clockDisplayElement.textContent = "00:00:00";
-                executeForcedLockoutSubmission();
-            } else {
-                let currentHours = Math.floor(persistentCountdownValue / 3600);
-                let currentMinutes = Math.floor((persistentCountdownValue % 3600) / 60);
-                let currentSeconds = persistentCountdownValue % 60;
-
-                let renderedHours = currentHours < 10 ? '0' + currentHours : currentHours;
-                let renderedMinutes = currentMinutes < 10 ? '0' + currentMinutes : currentMinutes;
-                let renderedSeconds = currentSeconds < 10 ? '0' + currentSeconds : currentSeconds;
-
-                clockDisplayElement.textContent = `${renderedHours}:${renderedMinutes}:${renderedSeconds}`;
-                persistentCountdownValue--;
-            }
-        }
-
-        // Handle clean up if form is manually submitted before time runs out
-        internalQuizForm.addEventListener('submit', function() {
-            localStorage.setItem('exam_locked_out', 'true');
-            localStorage.removeItem('dashboard_midterm_epoch_24h');
-        });
-
-        // Triggered upon 24-hour session expiration limits
-        function executeForcedLockoutSubmission() {
-            localStorage.setItem('exam_locked_out', 'true');
-            localStorage.removeItem('dashboard_midterm_epoch_24h');
-            timeoutCurtainWindow.style.display = 'flex';
-            
-            setTimeout(() => {
-                internalQuizForm.submit();
-            }, 2000);
-        }
-
-        // Absolute lockout restriction viewport modifier
-        function triggerPermanentLockoutView() {
-            document.getElementById('mainWorkspaceFrame').style.display = 'none';
-            clockDisplayElement.textContent = "00:00:00";
-            pulseNode.style.backgroundColor = 'var(--brand-danger)';
-            pulseNode.style.boxShadow = '0 0 8px var(--brand-danger)';
-            statusText.textContent = "Session Closed / Access Revoked";
-            
-            curtainContent.innerHTML = `
-                <h2 style="font-size: 2.5rem; margin-bottom: 16px; color: var(--danger-glow);">Access Denied</h2>
-                <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
-                    The 24-hour testing window has officially closed. You have either already submitted your responses or your token has expired. No further submissions are permitted.
-                </p>
-            `;
-            timeoutCurtainWindow.style.display = 'flex';
-        }
-    </script>
 </body>
 </html>
